@@ -11,7 +11,6 @@ import "./SharedStruct.sol";
 
 contract TwitterV1 is Initializable, ERC721Upgradeable {
     using TwitterValidation for string;
-    using TwitterUtil for SharedStruct.Tweet[];
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdTracker;
@@ -278,6 +277,6 @@ contract TwitterV1 is Initializable, ERC721Upgradeable {
     // @override tokenURI returns ERC721 tokenData as base64 encoded json string
     function tokenURI(uint256 _tokenId) public view virtual override returns (string memory) {
         require(_exists(_tokenId));
-        return tweets.createERC721Token(_tokenId);
+        return TwitterUtil.createERC721Token(tweets, _tokenId);
     }
 }

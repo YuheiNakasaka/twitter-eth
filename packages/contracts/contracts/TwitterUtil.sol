@@ -12,11 +12,7 @@ library TwitterUtil {
     using Strings for uint256;
     using Base64 for bytes;
 
-    function createERC721Token(SharedStruct.Tweet[] memory _tweets, uint256 _tokenId)
-        internal
-        pure
-        returns (string memory)
-    {
+    function createERC721Token(SharedStruct.Tweet[] memory _tweets, uint256 _tokenId) internal pure returns (string memory) {
         SharedStruct.Tweet memory _tweet = _findTweet(_tweets, _tokenId);
         require(_tweet.tokenId == _tokenId, "Tweet not found.");
         return
@@ -49,11 +45,7 @@ library TwitterUtil {
             );
     }
 
-    function _findTweet(SharedStruct.Tweet[] memory _tweets, uint256 _tokenId)
-        private
-        pure
-        returns (SharedStruct.Tweet memory)
-    {
+    function _findTweet(SharedStruct.Tweet[] memory _tweets, uint256 _tokenId) private pure returns (SharedStruct.Tweet memory) {
         SharedStruct.Tweet memory tweet;
         for (uint256 i = 0; i < _tweets.length; i++) {
             if (_tweets[i].tokenId == _tokenId) {

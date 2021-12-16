@@ -1,7 +1,7 @@
 {
   "name": "contracts",
   "version": "1.0.0",
-  "license": "ISC",
+  "license": "MIT",
   "scripts": {
     "dev:node": "NODE_ENV=local npx hardhat node",
     "dev:build": "NODE_ENV=local npx hardhat compile",

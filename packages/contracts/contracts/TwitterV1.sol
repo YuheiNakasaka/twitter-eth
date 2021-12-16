@@ -48,28 +48,20 @@ contract TwitterV1 is Initializable, ERC721Upgradeable {
         }
 
         SharedStruct.Tweet memory tweet;
+        tweet.tokenId = supply + 1;
+        tweet.content = _tweet;
+        tweet.author = msg.sender;
+        tweet.timestamp = block.timestamp;
+        tweet.iconUrl = iconUrl;
         if (bytes(_imageData).length > 0) {
-            tweet.tokenId = supply + 1;
-            tweet.content = _tweet;
-            tweet.author = msg.sender;
-            tweet.timestamp = block.timestamp;
             tweet.attachment = _imageData;
-            tweet.iconUrl = iconUrl;
-            tweets.push(tweet);
-            _tokenIdTracker.increment();
-            _safeMint(msg.sender, supply + 1);
         } else {
             require(bytes(_tweet).length > 0);
             require(_tweet.noSpace());
-            tweet.tokenId = supply + 1;
-            tweet.content = _tweet;
-            tweet.author = msg.sender;
-            tweet.timestamp = block.timestamp;
-            tweet.iconUrl = iconUrl;
-            tweets.push(tweet);
-            _tokenIdTracker.increment();
-            _safeMint(msg.sender, supply + 1);
         }
+        tweets.push(tweet);
+        _tokenIdTracker.increment();
+        _safeMint(msg.sender, supply + 1);
 
         emit Tweeted(msg.sender);
     }

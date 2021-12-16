@@ -1,0 +1,31 @@
+{
+  "name": "twitter-eth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "run-p dev:*",
+    "dev:compile": "yarn workspace contracts dev:build",
+    "dev:node": "yarn workspace contracts dev:node",
+    "dev:deploy": "wait-on http://localhost:8545 && yarn workspace contracts dev:deploy",
+    "dev:frontend": "wait-on http://localhost:8545 && yarn workspace frontend dev",
+    "prod:deploy": "yarn workspace contracts prod:deploy",
+    "prod:upgrade": "yarn workspace contracts prod:upgrade",
+    "contract:tweet": "yarn workspace contracts dev:tweet",
+    "contract:size": "yarn workspace contracts dev:size",
+    "contract:faucet": "yarn workspace contracts dev:faucet",
+    "contract:upgrade": "yarn workspace contracts dev:upgrade",
+    "contract:test": "yarn workspace contracts test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "private": true,
+  "workspaces": [
+    "packages/**"
+  ],
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "wait-on": "^6.0.0"
+  }
+}

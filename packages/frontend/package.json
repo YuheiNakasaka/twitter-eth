@@ -1,0 +1,36 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "license": "ISC",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^1.7.3",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@usedapp/core": "^0.6.3",
+    "dayjs": "^1.10.7",
+    "ethers": "^5.5.2",
+    "framer-motion": "^4",
+    "next": "12.0.7",
+    "nprogress": "^0.2.0",
+    "react": "17.0.2",
+    "react-anchorme": "^2.2.1",
+    "react-dom": "17.0.2",
+    "react-icons": "^4.3.1",
+    "react-image-file-resizer": "^0.4.7"
+  },
+  "devDependencies": {
+    "@types/gtag.js": "^0.0.8",
+    "@types/node": "16.11.12",
+    "@types/nprogress": "^0.2.0",
+    "@types/react": "17.0.37",
+    "eslint": "7.32.0",
+    "eslint-config-next": "12.0.7",
+    "typescript": "4.5.3"
+  }
+}

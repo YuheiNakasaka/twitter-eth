@@ -1,0 +1,34 @@
+{
+  "name": "contracts",
+  "version": "1.0.0",
+  "license": "ISC",
+  "scripts": {
+    "dev:node": "NODE_ENV=local npx hardhat node",
+    "dev:build": "NODE_ENV=local npx hardhat compile",
+    "dev:deploy": "NODE_ENV=local npx hardhat run scripts/deploy.js --network localhost",
+    "dev:upgrade": "NODE_ENV=local npx hardhat run scripts/upgrade.js --network localhost",
+    "dev:tweet": "NODE_ENV=local npx hardhat run scripts/tweet.js --network localhost",
+    "dev:size": "NODE_ENV=local npx hardhat compile && npx hardhat size-contracts",
+    "dev:faucet": "NODE_ENV=local npx hardhat run scripts/faucet.js --network localhost",
+    "prod:deploy": "NODE_ENV=production npx hardhat run scripts/deploy.js --network ropsten",
+    "prod:upgrade": "NODE_ENV=production npx hardhat run scripts/upgrade.js --network ropsten",
+    "test": "npx hardhat test"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.0",
+    "@nomiclabs/hardhat-waffle": "^2.0.0",
+    "@openzeppelin/hardhat-upgrades": "^1.12.0",
+    "chai": "^4.2.0",
+    "dotenv": "^10.0.0",
+    "ethereum-waffle": "^3.0.0",
+    "ethers": "^5.0.0",
+    "hardhat": "^2.7.0",
+    "hardhat-contract-sizer": "^2.1.1",
+    "prettier": "^2.5.1",
+    "prettier-plugin-solidity": "^1.0.0-beta.19"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.4.0",
+    "@openzeppelin/contracts-upgradeable": "^4.4.0"
+  }
+}

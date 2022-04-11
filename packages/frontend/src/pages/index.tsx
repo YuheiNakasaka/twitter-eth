@@ -38,8 +38,9 @@ const MainContent = () => {
     limit: number
   ): Promise<Tweet[]> => {
     if (library !== undefined && account) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, false);
       const tweets = await contract.getTimeline(offset, limit);
+      console.log(`tweets: ${tweets}`);
       return tweets.map((tweet: any) => {
         const tweetObj = tweet as Tweet;
         return {
@@ -58,7 +59,7 @@ const MainContent = () => {
     tweetInputImage: string
   ): Promise<boolean> => {
     if (library !== undefined && account) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, true);
       return await contract
         .setTweet(tweet, tweetInputImage)
         .then(() => true)
@@ -80,7 +81,7 @@ const MainContent = () => {
 
   const addLike = async (tweet: Tweet): Promise<boolean> => {
     if (library !== undefined && account) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, true);
       return await contract
         .addLike(tweet.tokenId)
         .then(() => true)
@@ -93,7 +94,7 @@ const MainContent = () => {
 
   const addRT = async (tweet: Tweet): Promise<boolean> => {
     if (library !== undefined && account) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, true);
       return await contract
         .addRetweet(tweet.tokenId)
         .then(() => true)
@@ -111,7 +112,7 @@ const MainContent = () => {
 
   const subscribeTweeted = async () => {
     if (library !== undefined && account) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, false);
       const provider = contractProvider(library);
       const filters = contract.filters["Tweeted"];
       if (filters !== undefined) {

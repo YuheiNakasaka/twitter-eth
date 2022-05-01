@@ -40,7 +40,6 @@ const MainContent = () => {
     if (library !== undefined && account) {
       const contract = await contractClient(library, false);
       const tweets = await contract.getTimeline(offset, limit);
-      console.log(`tweets: ${tweets}`);
       return tweets.map((tweet: any) => {
         const tweetObj = tweet as Tweet;
         return {

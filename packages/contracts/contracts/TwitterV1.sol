@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.10;
 
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -60,7 +60,7 @@ contract TwitterV1 is Initializable, ERC721Upgradeable {
         }
         tweets.push(tweet);
         _tokenIdTracker.increment();
-        _safeMint(msg.sender, supply + 1);
+        _mint(msg.sender, supply + 1);
 
         emit Tweeted(msg.sender);
     }

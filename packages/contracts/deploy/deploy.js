@@ -1,18 +1,22 @@
-const { Wallet, Provider } = require("zksync-web3");
+const { Wallet, Provider, utils } = require("zksync-web3");
 const { Deployer } = require("@matterlabs/hardhat-zksync-deploy");
 const functionName = "TwitterV1";
 
 module.exports = async function (hre) {
   console.log("Start deploy!");
   const provider = new Provider("https://zksync2-testnet.zksync.dev");
-  const wallet = new Wallet(process.env.PRIVATE_KEY).connect(provider);
+  const wallet = new Wallet(`0x${process.env.PRIVATE_KEY}`).connect(provider);
   const deployer = new Deployer(hre, wallet);
   const artifact = await deployer.loadArtifact(functionName);
-  const deployed = await deployer.deploy(
-    artifact,
-    [],
-    "0x5C221E77624690fff6dd741493D735a17716c26B"
-  );
+  const depositAmount = ethers.utils.parseEther("0.001");
+  const depositHandle = await deployer.zkWallet.deposit({
+    to: deployer.zkWallet.address,
+    token: utils.ETH_ADDRESS,
+    amount: depositAmount,
+  });
+  await depositHandle.wait();
+  const deployed = await deployer.deploy(artifact, []);
+
   const contractAddress = deployed.address;
   console.log(`${functionName} deployed to:`, contractAddress);
 

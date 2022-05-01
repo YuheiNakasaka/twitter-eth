@@ -24,7 +24,7 @@ function AppInit() {
   const router = useRouter();
   useEffect(() => {
     if (!account) {
-      if (router.pathname !== "/" && router.pathname !== "/hoge") {
+      if (router.pathname !== "/") {
         router.push("/");
       }
     }

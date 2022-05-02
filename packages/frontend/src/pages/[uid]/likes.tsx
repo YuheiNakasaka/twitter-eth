@@ -18,7 +18,7 @@ const MainContent = () => {
 
   const getLikes = async (address: string): Promise<Tweet[]> => {
     if (library !== undefined) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, false);
       const likes = await contract.getLikes(address);
       return likes.map((tweet) => {
         const tweetObj = tweet as Tweet;

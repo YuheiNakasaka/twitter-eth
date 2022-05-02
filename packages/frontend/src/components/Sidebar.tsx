@@ -166,7 +166,7 @@ export const SideBar = ({ account, type }: SideBarProps) => {
                   xl: "block",
                 }}
               >
-                Ropsten
+                zkSync
               </Text>
             </Flex>
           </FlatButton>

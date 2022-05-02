@@ -21,7 +21,7 @@ const MainContent = () => {
 
   const getFollowings = async (address: string): Promise<User[]> => {
     if (library !== undefined) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, false);
       const followings = await contract.getFollowings(address);
       return followings;
     } else {

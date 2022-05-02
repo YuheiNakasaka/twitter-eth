@@ -35,7 +35,7 @@ const MainContent = () => {
 
   const getTweet = async (tokenId: string): Promise<Tweet | null> => {
     if (library !== undefined && account) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, false);
       const tweet = await contract.getTweet(tokenId);
       const tweetObj = tweet as Tweet;
       return {
@@ -50,7 +50,7 @@ const MainContent = () => {
 
   const getComments = async (tokenId: string): Promise<Tweet[]> => {
     if (library !== undefined && account) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, false);
       const tweets = await contract.getComments(tokenId);
       return tweets.map((tweet: any) => {
         const tweetObj = tweet as Tweet;
@@ -70,7 +70,7 @@ const MainContent = () => {
     tokenId: string
   ): Promise<boolean> => {
     if (library !== undefined && account) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, true);
       return await contract
         .setComment(comment, parseInt(tokenId))
         .then(() => true)
@@ -92,7 +92,7 @@ const MainContent = () => {
 
   const addLike = async (tweet: Tweet): Promise<boolean> => {
     if (library !== undefined && account) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, true);
       return await contract
         .addLike(tweet.tokenId)
         .then(() => true)
@@ -110,7 +110,7 @@ const MainContent = () => {
 
   const subscribeCommented = async (tokenId: string) => {
     if (library !== undefined && account) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, false);
       const provider = contractProvider(library);
       const filters = contract.filters["Commented"];
       if (filters !== undefined) {

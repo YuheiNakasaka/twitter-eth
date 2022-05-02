@@ -51,7 +51,7 @@ const MainContent = () => {
 
   const getUserTweets = async (address: string): Promise<Tweet[]> => {
     if (library !== undefined) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, false);
       const tweets = await contract.getUserTweets(address);
       return tweets.map((tweet: any) => {
         const tweetObj = tweet as Tweet;
@@ -68,7 +68,7 @@ const MainContent = () => {
 
   const getFollowers = async (address: string): Promise<number> => {
     if (library !== undefined) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, false);
       const followers = await contract.getFollowers(address);
       return followers?.length || 0;
     } else {
@@ -79,7 +79,7 @@ const MainContent = () => {
 
   const getFollowings = async (address: string): Promise<number> => {
     if (library !== undefined) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, false);
       const followings = await contract.getFollowings(address);
       return followings?.length || 0;
     } else {
@@ -90,7 +90,7 @@ const MainContent = () => {
 
   const follow = async (address: string): Promise<boolean> => {
     if (library !== undefined) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, true);
       await contract.follow(address);
       return true;
     } else {
@@ -101,7 +101,7 @@ const MainContent = () => {
 
   const unfollow = async (address: string): Promise<boolean> => {
     if (library !== undefined) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, true);
       await contract.unfollow(address);
       return true;
     } else {
@@ -112,7 +112,7 @@ const MainContent = () => {
 
   const following = async (address: string): Promise<boolean> => {
     if (library !== undefined) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library,false);
       return await contract.isFollowing(address);
     } else {
       console.log("Library is undefined");
@@ -122,7 +122,7 @@ const MainContent = () => {
 
   const addLike = async (tweet: Tweet): Promise<boolean> => {
     if (library !== undefined && account) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library,true);
       return await contract
         .addLike(tweet.tokenId)
         .then(() => true)
@@ -135,7 +135,7 @@ const MainContent = () => {
 
   const addRT = async (tweet: Tweet): Promise<boolean> => {
     if (library !== undefined && account) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, true);
       return await contract
         .addRetweet(tweet.tokenId)
         .then(() => true)
@@ -148,7 +148,7 @@ const MainContent = () => {
 
   const getLikes = async (address: string): Promise<number> => {
     if (library !== undefined) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library,false);
       const likes = await contract.getLikes(address);
       return likes?.length || 0;
     } else {
@@ -159,7 +159,7 @@ const MainContent = () => {
 
   const changeIcon = async (iconUrl: string): Promise<boolean> => {
     if (library !== undefined) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library, true);
       await contract.changeIconUrl(iconUrl);
       return true;
     } else {
@@ -170,7 +170,7 @@ const MainContent = () => {
 
   const getUserIcon = async (address: string): Promise<string> => {
     if (library !== undefined) {
-      const contract = contractClient(library);
+      const contract = await contractClient(library,false);
       const url = await contract.getUserIcon(address);
       return url;
     } else {

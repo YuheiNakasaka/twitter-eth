@@ -1,10 +1,10 @@
-# Twitter on Ethereum
+# Twitter on zkSync
 
-[Demo](https://twitter-eth.vercel.app/)
+[Demo](https://twitter-eth-git-zksync-yuheinakasaka.vercel.app/)
 
 For starting this dapp, What you have to do is to **connect your wallet**. That's it!
 
-This is running on the testnet(**ropsten**).
+This is running on the testnet(**zkSync**).
 
 Contracts used in this app are frequently changing. Your tweet may not be displayed in Home.
 

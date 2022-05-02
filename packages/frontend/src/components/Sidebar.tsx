@@ -181,7 +181,7 @@ export const SideBar = ({ account, type }: SideBarProps) => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Twitter ETH on Ethereum(Ropsten)</ModalHeader>
+          <ModalHeader>Twitter ETH on Ethereum(zkSync)</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Flex flexDir="column" flexWrap="wrap" justifyContent="start">
@@ -221,7 +221,7 @@ export const SideBar = ({ account, type }: SideBarProps) => {
                   Links
                 </Heading>
                 <ChakraLink
-                  href="https://github.com/YuheiNakasaka/twitter-eth"
+                  href="https://github.com/YuheiNakasaka/twitter-eth/tree/zksync"
                   isExternal
                 >
                   <Icon as={BsGithub} mr="1rem" fontSize="1.5rem" />

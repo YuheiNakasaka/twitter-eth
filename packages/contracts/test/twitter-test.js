@@ -1,24 +1,33 @@
 const { expect } = require("chai");
 const { assert } = require("console");
 const { ethers } = require("hardhat");
+const { Wallet, Provider } = require("zksync-web3");
+const { Deployer } = require("@matterlabs/hardhat-zksync-deploy");
+
+const RICH_WALLET_PK =
+  "0x7726827caac94a7f9e1b160f7ea819f172f7b6f9d2a97f992c38edeab82d4110";
+
+async function setup() {
+  const provider = Provider.getDefaultProvider();
+  const wallet = new Wallet(RICH_WALLET_PK, provider);
+  const deployer = new Deployer(hre, wallet);
+  const artifact = await deployer.loadArtifact("TwitterV1");
+  const deployed = await deployer.deploy(artifact, []);
+  return { twitter: deployed, owner: wallet };
+}
 
 describe("Twitter", function () {
   describe("setTweet", function () {
     it("Should return error", async function () {
-      const [owner] = await ethers.getSigners();
-      const Twitter = await ethers.getContractFactory("TwitterV1");
-      const twitter = await Twitter.deploy();
-      await twitter.deployed();
+      const { twitter } = await setup();
+
       await expect(twitter.setTweet("     ")).to.be.reverted;
     });
   });
 
   describe("getTimeline", function () {
     it("Should return the tweet", async function () {
-      const [owner] = await ethers.getSigners();
-      const Twitter = await ethers.getContractFactory("TwitterV1");
-      const twitter = await Twitter.deploy();
-      await twitter.deployed();
+      const { twitter, owner } = await setup();
 
       const tx = await twitter.setTweet("Hello, world!", "");
       await tx.wait();
@@ -31,10 +40,7 @@ describe("Twitter", function () {
 
   describe("getUserTweets", function () {
     it("Should return the tweets order by timestamp desc", async function () {
-      const [owner] = await ethers.getSigners();
-      const Twitter = await ethers.getContractFactory("TwitterV1");
-      const twitter = await Twitter.deploy();
-      await twitter.deployed();
+      const { twitter, owner } = await setup();
 
       let tx = await twitter.setTweet("Hello, world!", "");
       await tx.wait();
@@ -48,10 +54,7 @@ describe("Twitter", function () {
     });
 
     it("Should return the tweet", async function () {
-      const [owner] = await ethers.getSigners();
-      const Twitter = await ethers.getContractFactory("TwitterV1");
-      const twitter = await Twitter.deploy();
-      await twitter.deployed();
+      const { twitter, owner } = await setup();
 
       let tx = await twitter.setTweet(
         "Hello, world!",
@@ -69,10 +72,7 @@ describe("Twitter", function () {
 
   describe("getTweet", function () {
     it("Should return the tweet", async function () {
-      const [owner] = await ethers.getSigners();
-      const Twitter = await ethers.getContractFactory("TwitterV1");
-      const twitter = await Twitter.deploy();
-      await twitter.deployed();
+      const { twitter, owner } = await setup();
 
       let tx = await twitter.setTweet("Hello, world!", "");
       await tx.wait();
@@ -85,10 +85,8 @@ describe("Twitter", function () {
 
   describe("follow", function () {
     it("Should follow user", async function () {
-      const [owner, user] = await ethers.getSigners();
-      const Twitter = await ethers.getContractFactory("TwitterV1");
-      const twitter = await Twitter.deploy();
-      await twitter.deployed();
+      const { twitter, owner } = await setup();
+      const [_, user] = await hre.ethers.getSigners();
 
       let tx = await twitter.follow(user.address);
       await tx.wait();
@@ -105,10 +103,8 @@ describe("Twitter", function () {
 
   describe("getFollowings", function () {
     it("Should unfollow user", async function () {
-      const [owner, user, user2] = await ethers.getSigners();
-      const Twitter = await ethers.getContractFactory("TwitterV1");
-      const twitter = await Twitter.deploy();
-      await twitter.deployed();
+      const { twitter, owner } = await setup();
+      const [_, user, user2] = await hre.ethers.getSigners();
 
       let tx = await twitter.follow(user.address);
       await tx.wait();
@@ -135,10 +131,8 @@ describe("Twitter", function () {
 
   describe("isFollowing", function () {
     it("Should true if follow the address", async function () {
-      const [owner, user] = await ethers.getSigners();
-      const Twitter = await ethers.getContractFactory("TwitterV1");
-      const twitter = await Twitter.deploy();
-      await twitter.deployed();
+      const { twitter } = await setup();
+      const [_, user] = await hre.ethers.getSigners();
 
       let tx = await twitter.follow(user.address);
       await tx.wait();
@@ -150,10 +144,7 @@ describe("Twitter", function () {
 
   describe("addLike", function () {
     it("Should add a like to the tweet", async function () {
-      const [owner] = await ethers.getSigners();
-      const Twitter = await ethers.getContractFactory("TwitterV1");
-      const twitter = await Twitter.deploy();
-      await twitter.deployed();
+      const { twitter, owner } = await setup();
 
       let tx = await twitter.setTweet("Hello, world!", "");
       await tx.wait();
@@ -172,10 +163,7 @@ describe("Twitter", function () {
 
   describe("getLikes", function () {
     it("Should return liked tweets", async function () {
-      const [owner] = await ethers.getSigners();
-      const Twitter = await ethers.getContractFactory("TwitterV1");
-      const twitter = await Twitter.deploy();
-      await twitter.deployed();
+      const { twitter, owner } = await setup();
 
       let tx = await twitter.setTweet("Hello, world!", "");
       await tx.wait();
@@ -197,10 +185,7 @@ describe("Twitter", function () {
 
   describe("changeIconUrl/getUserIcon", function () {
     it("Should change icon url", async function () {
-      const [owner] = await ethers.getSigners();
-      const Twitter = await ethers.getContractFactory("TwitterV1");
-      const twitter = await Twitter.deploy();
-      await twitter.deployed();
+      const { twitter, owner } = await setup();
 
       let url = await twitter.getUserIcon(owner.address);
       expect(url).to.equal("");
@@ -215,10 +200,7 @@ describe("Twitter", function () {
 
   describe("setComment/getComments", function () {
     it("Should add the comment", async function () {
-      const [owner] = await ethers.getSigners();
-      const Twitter = await ethers.getContractFactory("TwitterV1");
-      const twitter = await Twitter.deploy();
-      await twitter.deployed();
+      const { twitter, owner } = await setup();
 
       let tx = await twitter.setTweet("Hello, world!", "");
       await tx.wait();
@@ -235,15 +217,12 @@ describe("Twitter", function () {
 
   describe("addRetweet", function () {
     it("Should add the comment", async function () {
-      const [owner] = await ethers.getSigners();
-      const Twitter = await ethers.getContractFactory("TwitterV1");
-      const twitter = await Twitter.deploy();
-      await twitter.deployed();
+      const { twitter, owner } = await setup();
 
       let tx = await twitter.setTweet("Hello, world!", "");
       await tx.wait();
 
-      await twitter.addRetweet(1);
+      tx = await twitter.addRetweet(1);
       await tx.wait();
 
       let tweets = await twitter.getTimeline(0, 2);
@@ -258,10 +237,7 @@ describe("Twitter", function () {
 
   describe("tokenURI", function () {
     it("Should return base64 encoded string", async function () {
-      const [owner] = await ethers.getSigners();
-      const Twitter = await ethers.getContractFactory("TwitterV1");
-      const twitter = await Twitter.deploy();
-      await twitter.deployed();
+      const { twitter } = await setup();
 
       let tx = await twitter.setTweet("Hello, world!", "");
       await tx.wait();

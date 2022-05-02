@@ -7,6 +7,17 @@ require("@matterlabs/hardhat-zksync-solc");
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
+const zkSyncDeploy =
+  process.env.NODE_ENV == "test"
+    ? {
+        zkSyncNetwork: "http://localhost:3050",
+        ethNetwork: "http://localhost:8545",
+      }
+    : {
+        zkSyncNetwork: "https://zksync2-testnet.zksync.dev",
+        ethNetwork: "goerli",
+      };
+
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
@@ -24,12 +35,9 @@ module.exports = {
       },
     },
   },
-  zkSyncDeploy: {
-    zkSyncNetwork: "https://zksync2-testnet.zksync.dev",
-    ethNetwork: "goerli",
-  },
+  zkSyncDeploy,
   solidity: {
-    version: "0.8.12",
+    version: "0.8.10",
   },
   networks: {
     hardhat: {
